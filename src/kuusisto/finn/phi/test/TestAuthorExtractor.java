@@ -5,7 +5,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +21,7 @@ public class TestAuthorExtractor {
 		}
 		PrintWriter out = null;
 		try {
-			out = new PrintWriter("author_output");
+			out = new PrintWriter("author.output");
 			byte[] curr = {-128};
 			while (true) {
 				//read the filename
@@ -33,7 +32,7 @@ public class TestAuthorExtractor {
 						fnameList.add(curr[0]);
 					}
 				}
-				String fname = TestAuthorExtractor.convertToString(fnameList);
+				String fname = TestUtil.convertToASCII(fnameList);
 				if (fname.equals("*END")) { break; }
 				//read the author name
 				List<Byte> anameList = new ArrayList<Byte>();
@@ -42,7 +41,8 @@ public class TestAuthorExtractor {
 					anameList.add(curr[0]);
 					in.read(curr);
 				}
-				String aname = TestAuthorExtractor.convertToString(anameList);
+				String aname = TestUtil.convertToASCII(anameList);
+				aname = TestUtil.stripBetaCodes(aname);
 				//now burn to the end of the entry
 				while (curr[0] != (byte)0xff) {
 					in.read(curr);
@@ -64,20 +64,6 @@ public class TestAuthorExtractor {
 		} finally {
 			out.close();
 		}
-	}
-	
-	public static String convertToString(List<Byte> list) {
-		byte[] buf = new byte[list.size()];
-		for (int i = 0; i < list.size(); i++) {
-			buf[i] = list.get(i);
-		}
-		try {
-			return new String(buf, "ascii");
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
-		String ret = new String(buf);
-		return ret.trim();
 	}
 	
 }

@@ -4,7 +4,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,19 +29,19 @@ public class TestExtractor {
 		}
 		PrintWriter out = null;
 		try {
-			out = new PrintWriter("output");
+			out = new PrintWriter("text.output");
 			byte[] curr = {-128};
 			in.read(curr);
 			for (long i = 1; i < numBytes;) {
 				List<Byte> idBuffer = new ArrayList<Byte>();
-				while (TestExtractor.isBitSet(curr[0], 7) && i < numBytes) {
+				while (TestUtil.isBitSet(curr[0], 7) && i < numBytes) {
 					idBuffer.add(curr[0]);
 					in.read(curr);
 					i++;
 					if (i == 8192) { out.println("\n-----------END OF BLOCK-----------\n"); }
 				}
 				List<Byte> textBuffer = new ArrayList<Byte>();
-				while (!TestExtractor.isBitSet(curr[0], 7) && i < numBytes) {
+				while (!TestUtil.isBitSet(curr[0], 7) && i < numBytes) {
 					textBuffer.add(curr[0]);
 					in.read(curr);
 					i++;
@@ -50,8 +49,9 @@ public class TestExtractor {
 				}
 				
 				//convert those suckers
-				String id = TestExtractor.convertToString(idBuffer);
-				String text = TestExtractor.convertToString(textBuffer);
+				String id = TestUtil.convertToASCII(idBuffer);
+				String text = TestUtil.convertToASCII(textBuffer);
+				text = TestUtil.stripBetaCodes(text);
 				out.println("ID:");
 				out.println(id);
 				out.println(idBuffer.toString());
@@ -67,24 +67,6 @@ public class TestExtractor {
 		} finally {
 			out.close();
 		}
-	}
-	
-	public static String convertToString(List<Byte> list) {
-		byte[] buf = new byte[list.size()];
-		for (int i = 0; i < list.size(); i++) {
-			buf[i] = list.get(i);
-		}
-		try {
-			return new String(buf, "ascii");
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
-		String ret = new String(buf);
-		return ret.trim();
-	}
-	
-	public static boolean isBitSet(long value, int n) {
-		return (((1L << n) & value) != 0);
 	}
 	
 }
