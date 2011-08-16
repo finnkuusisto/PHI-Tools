@@ -1,0 +1,19 @@
+############
+# Compiled #
+############
+*.class
+
+#################
+# IDE Generated #
+#################
+.classpath
+.project
+.settings
+
+########
+# Data #
+########
+*.TXT
+*.txt
+*.DIR
+*.dir
