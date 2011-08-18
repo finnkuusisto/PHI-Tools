@@ -14,7 +14,7 @@ public class TestAuthorExtractor {
 		BufferedInputStream in = null;
 		try {
 			FileInputStream fileInStream = 
-				new FileInputStream("./data/AUTHTAB.DIR");
+				new FileInputStream("./data/authtab.dir");
 			in = new BufferedInputStream(fileInStream);
 		} catch (FileNotFoundException e) {
 			System.err.println("Couldn't open file!");
