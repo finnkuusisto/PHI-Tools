@@ -15,7 +15,7 @@ public class TestExtractor {
 		FileChannel inFC = null;
 		long numBytes = 0;
 		try {
-			in = new FileInputStream("LAT0013.TXT");
+			in = new FileInputStream("./data/LAT0959.TXT");
 			inFC = in.getChannel();
 			numBytes = inFC.size();
 		} catch (FileNotFoundException e) {
@@ -29,13 +29,13 @@ public class TestExtractor {
 		}
 		PrintWriter out = null;
 		try {
-			out = new PrintWriter("text.output");
+			out = new PrintWriter("./output/text.output");
 			byte[] curr = {-128};
 			in.read(curr);
 			for (long i = 1; i < numBytes;) {
 				List<Byte> idBuffer = new ArrayList<Byte>();
 				while (TestUtil.isBitSet(curr[0], 7) && i < numBytes) {
-					idBuffer.add(curr[0]);
+					idBuffer.add(TestUtil.unsetBit(curr[0], 7));
 					in.read(curr);
 					i++;
 					if (i == 8192) { out.println("\n-----------END OF BLOCK-----------\n"); }

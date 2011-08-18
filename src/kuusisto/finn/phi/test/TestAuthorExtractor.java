@@ -13,7 +13,9 @@ public class TestAuthorExtractor {
 	public static void main(String[] args) {
 		BufferedInputStream in = null;
 		try {
-			in = new BufferedInputStream(new FileInputStream("AUTHTAB.DIR"));
+			FileInputStream fileInStream = 
+				new FileInputStream("./data/AUTHTAB.DIR");
+			in = new BufferedInputStream(fileInStream);
 		} catch (FileNotFoundException e) {
 			System.err.println("Couldn't open file!");
 			e.printStackTrace();
@@ -21,7 +23,7 @@ public class TestAuthorExtractor {
 		}
 		PrintWriter out = null;
 		try {
-			out = new PrintWriter("author.output");
+			out = new PrintWriter("./output/author.output");
 			byte[] curr = {-128};
 			while (true) {
 				//read the filename
