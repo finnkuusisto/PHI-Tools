@@ -8,6 +8,8 @@ import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.List;
 
+import kuusisto.finn.phi.Record;
+
 public class TestExtractor {
 
 	public static void main(String[] args) {
@@ -45,18 +47,9 @@ public class TestExtractor {
 					in.read(curr);
 					i++;
 				}
-				
 				//convert those suckers
-				String id = TestUtil.convertToASCII(idBuffer);
-				String text = TestUtil.convertToASCII(textBuffer);
-				text = TestUtil.stripBetaCodes(text);
-				out.println("ID:");
-				out.println(id);
-				out.println(idBuffer.toString());
-				out.println("TEXT:");
-				out.println(text);
-				out.println(textBuffer.toString());
-				out.println();
+				Record rec = new Record(idBuffer, textBuffer);
+				System.out.println(rec);
 			}
 		} catch (IOException e) {
 			System.err.println("Error reading!");
