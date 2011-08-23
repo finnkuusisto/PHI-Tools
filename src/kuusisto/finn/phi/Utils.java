@@ -21,10 +21,21 @@ public class Utils {
 		return value;
 	}
 	
+	public static byte[] unsetBit(byte[] values, int n) {
+		byte[] ret = new byte[values.length];
+		for (int i = 0; i < values.length; i++) {
+			ret[i] = Utils.unsetBit(values[i], n);
+		}
+		return ret;
+	}
+	
 	public static String bitString(byte val) {
 		StringBuilder str = new StringBuilder();
 		for (int i = 7; i >= 0; i--) {
 			str.append(Utils.isBitSet(val, i) ? "1" : "0");
+			if (i == 4) {
+				str.append(" ");
+			}
 		}
 		return str.toString();
 	}

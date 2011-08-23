@@ -108,6 +108,16 @@ public class RecordID {
 		if (this.hasIncrement()) {
 			str.append(",INC");
 		}
+		str.append("\n[");
+		for (int i = 0; i < this.bytes.length; i++) {
+			str.append(Utils.bitString(this.bytes[i]));
+			if (i < this.bytes.length - 1) {
+				str.append(",");
+			}
+		}
+		str.append("]\n");
+		byte[] text = Utils.unsetBit(this.bytes, 7);
+		str.append(Utils.convertToASCII(text));
 		return str.toString();
 	}
 	

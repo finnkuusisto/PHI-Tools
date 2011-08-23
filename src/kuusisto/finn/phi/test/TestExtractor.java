@@ -17,7 +17,7 @@ public class TestExtractor {
 		FileChannel inFC = null;
 		long numBytes = 0;
 		try {
-			in = new FileInputStream("./data/lat0959.txt");
+			in = new FileInputStream("./data/lat0690.txt");
 			inFC = in.getChannel();
 			numBytes = inFC.size();
 		} catch (FileNotFoundException e) {
