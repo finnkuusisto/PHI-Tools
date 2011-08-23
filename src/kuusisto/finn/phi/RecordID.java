@@ -19,14 +19,48 @@ public class RecordID {
 	
 	//TODO more citation types and perhaps a different interface
 	
-	private boolean hasCitationN() {
+	private int indexOfLeftNibble(byte nibble) {
 		for (int i = 0; i < this.bytes.length; i++) {
 			byte left = (byte)(this.bytes[i] & RecordID.LEFT_NIBBLE);
-			if (left == RecordID.L_N_LEVEL) {
-				return true;
+			if (left == nibble) {
+				return i;
 			}
 		}
-		return false;
+		return -1;
+	}
+	
+	private boolean hasCitationA() {
+		int index = this.indexOfLeftNibble(RecordID.L_ESCAPE);
+		if (index < 0 || index == this.bytes.length - 1) {
+			return false;
+		}
+		byte next = this.bytes[index + 1];
+		next = Utils.unsetBit(next, 7);
+		return (next == 0);
+	}
+	
+	private boolean hasCitationZ() {
+		return (this.indexOfLeftNibble(RecordID.L_Z_LEVEL) >= 0);
+	}
+	
+	private boolean hasCitationY() {
+		return (this.indexOfLeftNibble(RecordID.L_Y_LEVEL) >= 0);
+	}
+	
+	private boolean hasCitationX() {
+		return (this.indexOfLeftNibble(RecordID.L_X_LEVEL) >= 0);
+	}
+	
+	private boolean hasCitationW() {
+		return (this.indexOfLeftNibble(RecordID.L_W_LEVEL) >= 0);
+	}
+	
+	private boolean hasCitationV() {
+		return (this.indexOfLeftNibble(RecordID.L_V_LEVEL) >= 0);
+	}
+	
+	private boolean hasCitationN() {
+		return (this.indexOfLeftNibble(RecordID.L_N_LEVEL) >= 0);
 	}
 	
 	private boolean hasIncrement() {
@@ -50,8 +84,26 @@ public class RecordID {
 	public String toString() {
 		//TODO this is pretty useless so far
 		StringBuilder str = new StringBuilder();
+		if (this.hasCitationA()) {
+			str.append("A");
+		}
+		if (this.hasCitationZ()) {
+			str.append(",Z");
+		}
+		if (this.hasCitationY()) {
+			str.append(",Y");
+		}
+		if (this.hasCitationX()) {
+			str.append(",X");
+		}
+		if (this.hasCitationW()) {
+			str.append(",W");
+		}
+		if (this.hasCitationV()) {
+			str.append(",V");
+		}
 		if (this.hasCitationN()) {
-			str.append("N");
+			str.append(",N");
 		}
 		if (this.hasIncrement()) {
 			str.append(",INC");
@@ -64,8 +116,8 @@ public class RecordID {
 	//////////////////
 	
 	private static final byte LEFT_NIBBLE =  RecordID.mask("11110000");
-	private static final byte RIGHT_NIBBLE = RecordID.mask("00001111");        
-
+	private static final byte RIGHT_NIBBLE = RecordID.mask("00001111");
+	
 	private static final byte L_Z_LEVEL = RecordID.mask("10000000");
 	private static final byte L_Y_LEVEL = RecordID.mask("10010000");
 	private static final byte L_X_LEVEL = RecordID.mask("10100000");

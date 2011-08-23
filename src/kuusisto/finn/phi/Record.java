@@ -20,10 +20,10 @@ public class Record {
 	public String toString() {
 		StringBuilder str = new StringBuilder();
 		str.append("ID:\n");
-		str.append(this.ID);
+		str.append(this.ID.toString());
 		str.append("\n");
 		str.append("TEXT:\n");
-		str.append(this.TEXT);
+		str.append(this.TEXT.toString());
 		str.append("\n");
 		return str.toString();
 	}

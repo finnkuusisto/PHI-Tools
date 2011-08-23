@@ -37,7 +37,7 @@ public class TestExtractor {
 			for (long i = 1; i < numBytes;) {
 				List<Byte> idBuffer = new ArrayList<Byte>();
 				while (TestUtil.isBitSet(curr[0], 7) && i < numBytes) {
-					idBuffer.add(TestUtil.unsetBit(curr[0], 7));
+					idBuffer.add(curr[0]);
 					in.read(curr);
 					i++;
 				}
