@@ -50,6 +50,22 @@ public class Utils {
 		String ret = new String(bytes);
 		return ret;
 	}
+
+	public static byte mask(String mask) {
+		if (mask == null || mask.length() != 8) {
+			throw new IllegalArgumentException();
+		}
+		byte ret = 0;
+		for (int i = 0; i < mask.length(); i++) {
+			//the String "bits" are in visual order
+			if (mask.charAt(i) == '0') {
+				ret = unsetBit(ret, (8 - i - 1));
+			} else {
+				ret = setBit(ret, (8 - i - 1));
+			}
+		}
+		return ret;
+	}
 	
 	public static void main(String[] args) {
 		byte test = 0;
