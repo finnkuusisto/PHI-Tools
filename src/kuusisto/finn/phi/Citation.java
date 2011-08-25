@@ -22,5 +22,7 @@ public class Citation {
 	//special codes
 	public boolean EOB;
 	public boolean EOF;
+	public boolean EXCEPTION_START;
+	public boolean EXCEPTION_END;
 	
 }

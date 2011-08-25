@@ -60,7 +60,8 @@ public class Utils {
 			//the String "bits" are in visual order
 			if (mask.charAt(i) == '0') {
 				ret = unsetBit(ret, (8 - i - 1));
-			} else {
+			}
+			else {
 				ret = setBit(ret, (8 - i - 1));
 			}
 		}
