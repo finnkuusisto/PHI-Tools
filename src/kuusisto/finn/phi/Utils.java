@@ -40,6 +40,17 @@ public class Utils {
 		return str.toString();
 	}
 	
+	public static String bitString(int val) {
+		StringBuilder str = new StringBuilder();
+		for (int i = 31; i >= 0; i--) {
+			str.append(Utils.isBitSet(val, i) ? "1" : "0");
+			if (i % 4 == 0) {
+				str.append(" ");
+			}
+		}
+		return str.toString();
+	}
+	
 	public static String convertToASCII(byte[] bytes) {
 		try {
 			return new String(bytes, "ascii");
