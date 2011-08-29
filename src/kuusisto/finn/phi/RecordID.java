@@ -84,7 +84,7 @@ public class RecordID {
 	
 	private void parse() {
 		boolean foundDescriptor = false;
-		for (int i = 0; i < this.bytes.length || foundDescriptor;) {
+		for (int i = 0; i < this.bytes.length && !foundDescriptor;) {
 			Citation toAdd = new Citation();
 			boolean add = true;
 			//first identify the left nibble
@@ -141,6 +141,7 @@ public class RecordID {
 						//found a descriptor
 						add = false;
 						foundDescriptor = true;
+						
 					}
 					else { //this shouldn't happen
 						add = false;
@@ -163,6 +164,9 @@ public class RecordID {
 				if (curr == RecordID.EOS) {
 					add = false;
 					System.err.println("Started parse at EOS byte!");
+				}
+				else {
+					i++;
 				}
 			}
 			else {
@@ -195,9 +199,6 @@ public class RecordID {
 			citation.BIN_ASCII = true;
 			citation.bin = this.bin7Bit(dataIndex);
 			citation.ascii = this.asciiChar(dataIndex + 1);
-			//TODO debug
-			System.err.println("****Found single char!****");
-			System.err.println(this.toString());
 			retIndex = (dataIndex + 2);
 		}
 		else if (right == RecordID.R_7BIN_ASCII) {
@@ -217,9 +218,6 @@ public class RecordID {
 			citation.BIN_ASCII = true;
 			citation.bin = this.bin14Bit(dataIndex, (dataIndex + 1));
 			citation.ascii = this.asciiChar(dataIndex + 2);
-			//TODO debug
-			System.err.println("****Found single char!****");
-			System.err.println(this.toString());
 			retIndex = (dataIndex + 3);
 		}
 		else if (right == RecordID.R_14BIN_ASCII) {
