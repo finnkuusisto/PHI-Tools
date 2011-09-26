@@ -42,6 +42,7 @@ public class RecordID {
 		return -1;
 	}
 	
+	@SuppressWarnings("unused")
 	private int indexOfLeftNibble(byte nibble) {
 		return this.indexOfLeftNibble(nibble, 0);
 	}
@@ -55,25 +56,44 @@ public class RecordID {
 		return -1;
 	}
 	
+	@SuppressWarnings("unused")
 	private int indexOfByte(byte val) {
 		return this.indexOfByte(val, 0);
+	}
+	
+	public boolean hasEndOfBlock() {
+		for (Citation citation : this.citations) {
+			if (citation.EOB) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public boolean hasEndOfFile() {
+		for (Citation citation : this.citations) {
+			if (citation.EOF) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	@Override
 	public String toString() {
 		//TODO this is pretty useless so far
 		StringBuilder str = new StringBuilder();
-		str.append("\n[");
-		for (int i = 0; i < this.bytes.length; i++) {
-			str.append(Utils.bitString(this.bytes[i]));
-			if (i < this.bytes.length - 1) {
-				str.append(",");
-			}
-		}
-		str.append("]\n");
-		byte[] text = Utils.unsetBit(this.bytes, 7);
-		str.append(Utils.convertToASCII(text));
-		str.append("\n");
+//		str.append("\n[");
+//		for (int i = 0; i < this.bytes.length; i++) {
+//			str.append(Utils.bitString(this.bytes[i]));
+//			if (i < this.bytes.length - 1) {
+//				str.append(",");
+//			}
+//		}
+//		str.append("]\n");
+//		byte[] text = Utils.unsetBit(this.bytes, 7);
+//		str.append(Utils.convertToASCII(text));
+//		str.append("\n");
 		str.append(this.citations.toString());
 		return str.toString();
 	}
@@ -229,7 +249,7 @@ public class RecordID {
 			retIndex = (strTo + 1);
 		}
 		else if (right == RecordID.R_SAME_1CHAR) {
-			//TODO debug
+			//TODO Not sure what this means, but it doesn't occur in the texts
 			System.err.println("****Found same_1char!****");
 			System.err.println(this.toString());
 			retIndex = (dataIndex + 1);

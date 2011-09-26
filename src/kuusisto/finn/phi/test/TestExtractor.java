@@ -71,7 +71,10 @@ public class TestExtractor {
 			}
 			//convert those suckers
 			Record rec = new Record(idBuffer, textBuffer);
-			out.println(rec.toString());
+			//only print the text of non-EOF/EOB records
+			if (!rec.ID.hasEndOfBlock() && !rec.ID.hasEndOfFile()) {
+				out.println(rec.TEXT.toString());
+			}
 		}
 	}
 	

@@ -1,6 +1,7 @@
 package kuusisto.finn.phi;
 
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 
 import kuusisto.finn.phi.test.TestUtil;
 
@@ -51,6 +52,14 @@ public class Utils {
 		return str.toString();
 	}
 	
+	public static String convertToASCII(List<Byte> bytes) {
+		byte[] tmp = new byte[bytes.size()];
+		for (int i = 0; i < bytes.size(); i++) {
+			tmp[i] = bytes.get(i);
+		}
+		return Utils.convertToASCII(tmp);
+	}
+	
 	public static String convertToASCII(byte[] bytes) {
 		try {
 			return new String(bytes, "ascii");
@@ -77,6 +86,14 @@ public class Utils {
 			}
 		}
 		return ret;
+	}
+	
+	public static String stripBetaCodes(String str) {
+		if (str.split("&[0-9]*").length > 1 ||
+				str.split("@[0-9]*").length > 1) {
+			return str.replaceAll("[@&][0-9]*", "");
+		}
+		return str;
 	}
 	
 	public static void main(String[] args) {
